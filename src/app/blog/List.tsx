@@ -1,19 +1,16 @@
-import Link from "next/link";
-
-type PokemonItem = {
+export type PokemonItem = {
   name: string;
   url: string;
 }
 
-export default async function getPokemons() {
+export async function getPokemons() {
   const res = await fetch('https://pokeapi.co/api/v2/pokemon/?limit=50');
-  const pokemons: {results: PokemonItem[]} = await res.json();
+  const data: {results: PokemonItem[]} = await res.json();
   if(!res.ok) {
     throw new Error('Error');
   }
-  console.log(pokemons.results)
   await new Promise((res)=> setTimeout(()=> res('resolved'), 800))
-  return pokemons.results;
+  return data;
   // return (
   //   <div className={`mt-8 min-h-[85vh] grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-8 place-items-stretch`}>
   //           {pokemons.results.map((pokemon: PokemonItem) => (
@@ -23,4 +20,24 @@ export default async function getPokemons() {
   //           ))}
   //         </div>
   // )
+}
+
+export type Pokemon={
+  name: string;
+  sprites: {
+    other: {
+      dream_world: {
+        front_default:string;
+      }
+    }
+  }
+}
+
+export async function getPokemon(name: string) {
+  const res = await fetch('https://pokeapi.co/api/v2/pokemon/'+name);
+  const pokemon: Pokemon = await res.json();
+  if(!res.ok) {
+    throw new Error('Something went wrong');
+  }
+ return pokemon;
 }

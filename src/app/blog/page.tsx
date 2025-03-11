@@ -1,7 +1,7 @@
 'use client'
 
 import { Suspense, useEffect, useState } from "react";
-import getPokemons from "./List";
+import {getPokemons} from "./List";
 import ClientList from "./ClientList";
 
 export type PokemonItem = {
@@ -10,7 +10,7 @@ export type PokemonItem = {
 }
 
 export default function Blog() {
-  const data = getPokemons() as Promise<PokemonItem[]>;
+  const data = getPokemons() as Promise<{results: PokemonItem[]}>;
   
    return (
     <div className="min-h-[50vh] border border-slate-300">
